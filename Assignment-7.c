@@ -2,7 +2,7 @@
 #include <string.h>
 
 int top = -1;
-int stack[20]; // Fixed size for the global stack array
+int stack[20];
 
 int IsEmpty()
 {
@@ -63,28 +63,28 @@ void Postfix_to_Infix(char Postfix[20], char Infix[20])
     {
         char sym = Postfix[i];
         
-        // If operand, push directly to stack
         if ((sym >= '0' && sym <= '9') || (sym >= 'A' && sym <= 'Z') || (sym >= 'a' && sym <= 'z')) 
         {
             top++;
             s[top][0] = sym;
             s[top][1] = '\0';
         } 
-        else // If operator
+        else 
         {
             char op2[20], op1[20], temp[40];
             strcpy(op2, s[top--]);
             strcpy(op1, s[top--]);
             
-            // Build "(op1 + sym + op2)" manually without sprintf
             int j = 0, k = 0;
             temp[j++] = '(';
             
-            while (op1[k] != '\0') temp[j++] = op1[k++];
+            while (op1[k] != '\0')
+            { temp[j++] = op1[k++];}
             temp[j++] = sym;
             
             k = 0;
-            while (op2[k] != '\0') temp[j++] = op2[k++];
+            while (op2[k] != '\0')
+            {temp[j++] = op2[k++];}
             temp[j++] = ')';
             temp[j] = '\0';
             
@@ -100,35 +100,30 @@ void Prefix_to_Infix(char Prefix[20], char Infix[20])
 {
     char s[20][20];
     int top = -1;
-    
-    // Find the length of the prefix expression up to '$'
+
     int len = 0;
     while (Prefix[len] != '$' && Prefix[len] != '\0') {
         len++;
     }
 
-    // Scan from right to left
     int i = len - 1;
     while (i >= 0) 
     {
         char sym = Prefix[i];
         
-        // If operand, push directly to stack
         if ((sym >= '0' && sym <= '9') || (sym >= 'A' && sym <= 'Z') || (sym >= 'a' && sym <= 'z')) 
         {
             top++;
             s[top][0] = sym;
             s[top][1] = '\0';
         } 
-        else // If operator
+        else 
         {
             char op1[20], op2[20], temp[40];
             
-            // Pop op1 first, then op2 for prefix evaluation
             strcpy(op1, s[top--]);
             strcpy(op2, s[top--]);
             
-            // Build "(op1 + sym + op2)" manually without sprintf
             int j = 0, k = 0;
             temp[j++] = '(';
             
@@ -155,7 +150,7 @@ int main()
     char infix[40];
     int ch;
 
-    printf("--- Expression Converter & Solver ---\n");
+    printf("Expression Converter & Solver \n");
     printf("1. Postfix Expression\n");
     printf("2. Prefix Expression\n");
     printf("Enter your choice : ");
@@ -168,11 +163,9 @@ int main()
     {
         case 1:
         {
-            // Convert to Infix
             Postfix_to_Infix(expr, infix);
             printf("\nConverted Infix Expression: %s\n", infix);
 
-            // Evaluate Postfix Expression
             top = -1;
             int i = 0;
 
@@ -214,11 +207,9 @@ int main()
 
         case 2:
         {
-            // Convert to Infix
             Prefix_to_Infix(expr, infix);
             printf("\nConverted Infix Expression: %s\n", infix);
 
-            // Evaluate Prefix Expression
             top = -1;
             int len = 0;
 
